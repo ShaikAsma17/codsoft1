@@ -1,0 +1,85 @@
+public class BasicJavaOperations {
+
+    // Swapping two numbers
+    public static void swapNumbers(int a, int b) {
+        System.out.println("Before swapping: a = " + a + ", b = " + b);
+        int temp = a;
+        a = b;
+        b = temp;
+        System.out.println("After swapping: a = " + a + ", b = " + b);
+    }
+
+    // Checking if a string is a palindrome
+    public static boolean isPalindrome(String str) {
+        str = str.toLowerCase().replaceAll("\\s+", ""); // Ignore case and spaces
+        int left = 0;
+        int right = str.length() - 1;
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    // Reversing a string
+    public static String reverseString(String str) {
+        StringBuilder reversed = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversed.append(str.charAt(i));
+        }
+        return reversed.toString();
+    }
+
+    // Removing duplicate elements from an array
+    public static int[] removeDuplicates(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return new int[0];
+        }
+        java.util.Arrays.sort(arr); // Sort the array to easily find duplicates
+        int uniqueCount = 1;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] != arr[i - 1]) {
+                uniqueCount++;
+            }
+        }
+        int[] result = new int[uniqueCount];
+        result[0] = arr[0];
+        int resultIndex = 1;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] != arr[i - 1]) {
+                result[resultIndex++] = arr[i];
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("--- Swapping Numbers ---");
+        swapNumbers(5, 10);
+
+        System.out.println("\n--- Palindrome Check ---");
+        System.out.println("Is 'madam' a palindrome? " + isPalindrome("madam"));
+        System.out.println("Is 'race car' a palindrome? " + isPalindrome("race car"));
+        System.out.println("Is 'hello' a palindrome? " + isPalindrome("hello"));
+
+        System.out.println("\n--- Reverse String ---");
+        System.out.println("Reverse of 'java' is: " + reverseString("java"));
+        System.out.println("Reverse of 'world' is: " + reverseString("world"));
+
+        System.out.println("\n--- Remove Duplicates from Array ---");
+        int[] arrayWithDuplicates = {1, 2, 2, 3, 4, 4, 5};
+        int[] uniqueArray = removeDuplicates(arrayWithDuplicates);
+        System.out.print("Array with duplicates: ");
+        for (int num : arrayWithDuplicates) {
+            System.out.print(num + " ");
+        }
+        System.out.print("\nArray with unique elements: ");
+        for (int num : uniqueArray) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+}

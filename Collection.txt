@@ -1,0 +1,383 @@
+import java.util.HashSet;
+import java.util.Objects;
+
+class Employee {
+    private int id;
+    private String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id; // Employees are considered equal if their IDs are the same
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // Hash code should be based on the field used in equals
+    }
+}
+
+public class EmployeeHashSetExample {
+    public static void main(String[] args) {
+        // Create a HashSet to store Employee objects
+        HashSet<Employee> employeeSet = new HashSet<>();
+
+        // Create Employee objects
+        Employee emp1 = new Employee(101, "Alice");
+        Employee emp2 = new Employee(102, "Bob");
+        Employee emp3 = new Employee(101, "Charlie"); // Same ID as emp1
+        Employee emp4 = new Employee(103, "David");
+
+        // Add Employee objects to the HashSet
+        employeeSet.add(emp1);
+        employeeSet.add(emp2);
+        employeeSet.add(emp3); // This will not be added because emp3 has the same ID as emp1
+        employeeSet.add(emp4);
+
+        // Print the contents of the HashSet
+        System.out.println("Employee HashSet:");
+        for (Employee employee : employeeSet) {
+            System.out.println(employee);
+        }
+
+        // Check if a specific employee exists
+        Employee empToFind = new Employee(102, "Bob");
+        if (employeeSet.contains(empToFind)) {
+            System.out.println("\n" + empToFind + " exists in the HashSet.");
+        } else {
+            System.out.println("\n" + empToFind + " does not exist in the HashSet.");
+        }
+
+        // Remove an employee
+        Employee empToRemove = new Employee(101, "Alice");
+        if (employeeSet.remove(empToRemove)) {
+            System.out.println("\nRemoved " + empToRemove + " from the HashSet.");
+        } else {
+            System.out.println("\n" + empToRemove + " was not found in the HashSet.");
+        }
+
+        // Print the contents of the HashSet after removal
+        System.out.println("\nEmployee HashSet after removal:");
+        for (Employee employee : employeeSet) {
+            System.out.println(employee);
+        }
+
+        // Get the size of the HashSet
+        System.out.println("\nSize of the Employee HashSet: " + employeeSet.size());
+    }
+}
+
+
+
+import java.util.Objects;
+import java.util.TreeSet;
+import java.util.Comparator;
+
+class Employee implements Comparable<Employee> {
+    private int id;
+    private String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Employee other) {
+        // Compare based on employee ID
+        return Integer.compare(this.id, other.id);
+        // You could also compare based on name:
+        // return this.name.compareTo(other.name);
+    }
+}
+
+public class EmployeeTreeSetExample {
+    public static void main(String[] args) {
+        // Create a TreeSet to store Employee objects
+        // The natural ordering of Employee (based on compareTo) will be used
+        TreeSet<Employee> employeeSet1 = new TreeSet<>();
+
+        // Create Employee objects
+        Employee emp1 = new Employee(101, "Alice");
+        Employee emp2 = new Employee(102, "Bob");
+        Employee emp3 = new Employee(101, "Charlie"); // Same ID as emp1
+        Employee emp4 = new Employee(103, "David");
+
+        // Add Employee objects to the TreeSet
+        employeeSet1.add(emp1);
+        employeeSet1.add(emp2);
+        employeeSet1.add(emp3); // This will not be added because emp3 has the same ID as emp1
+        employeeSet1.add(emp4);
+
+        // Print the contents of the TreeSet (elements will be in sorted order by ID)
+        System.out.println("Employee TreeSet (natural ordering by ID):");
+        for (Employee employee : employeeSet1) {
+            System.out.println(employee);
+        }
+
+        // Check if a specific employee exists
+        Employee empToFind = new Employee(102, "Bob");
+        if (employeeSet1.contains(empToFind)) {
+            System.out.println("\n" + empToFind + " exists in the TreeSet.");
+        } else {
+            System.out.println("\n" + empToFind + " does not exist in the TreeSet.");
+        }
+
+        // Remove an employee
+        Employee empToRemove = new Employee(101, "Alice");
+        if (employeeSet1.remove(empToRemove)) {
+            System.out.println("\nRemoved " + empToRemove + " from the TreeSet.");
+        } else {
+            System.out.println("\n" + empToRemove + " was not found in the TreeSet.");
+        }
+
+        // Print the contents of the TreeSet after removal
+        System.out.println("\nEmployee TreeSet after removal:");
+        for (Employee employee : employeeSet1) {
+            System.out.println(employee);
+        }
+
+        // Get the size of the TreeSet
+        System.out.println("\nSize of the Employee TreeSet: " + employeeSet1.size());
+
+        System.out.println("\n--------------------------------------------------\n");
+
+        // Create a TreeSet with a custom Comparator to sort by name
+        TreeSet<Employee> employeeSet2 = new TreeSet<>(Comparator.comparing(Employee::getName));
+
+        employeeSet2.add(emp1);
+        employeeSet2.add(emp2);
+        employeeSet2.add(emp3); // Still not added due to equals() based on ID
+        employeeSet2.add(emp4);
+
+        System.out.println("Employee TreeSet (sorted by name using Comparator):");
+        for (Employee employee : employeeSet2) {
+            System.out.println(employee);
+        }
+    }
+}
+
+
+
+
+
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class CreateArrayList {
+
+    public static void main(String[] args) {
+        ArrayList<String> list1 = new ArrayList<>();
+        System.out.println("List 1 (empty): " + list1);
+
+         List<Integer> immutableList = Arrays.asList(100, 200, 300);
+        ArrayList<Integer> list6 = new ArrayList<>(immutableList);
+        list6.add(400); // Now you can modify list6
+        System.out.println("List 6 (from an unmodifiable List): " + list6);
+
+  	 String[] colors = {"Red", "Green", "Blue"};
+        ArrayList<String> list5 = new ArrayList<>(Arrays.asList(colors));
+        System.out.println("List 5 (from an array): " + list5);
+      
+        ArrayList<Double> list8 = new ArrayList<>();
+        list8.add(3.14);
+        list8.add(2.71);
+        list8.add(1.618);
+        System.out.println("List 8 (empty then populated): " + list8);
+    }
+}
+
+
+
+import java.util.LinkedList;
+
+public class SimpleLinkedListExample {
+
+    public static void main(String[] args) {
+        // 1. Creating an empty LinkedList of Strings
+        LinkedList<String> names = new LinkedList<>();
+        System.out.println("Initial LinkedList: " + names);
+
+        // 2. Adding elements to the end of the LinkedList using add()
+        names.add("Alice");
+        names.add("Bob");
+        names.add("Charlie");
+        System.out.println("LinkedList after adding elements at the end: " + names);
+
+        // 3. Adding an element at the beginning using addFirst()
+        names.addFirst("David");
+        System.out.println("LinkedList after adding at the beginning: " + names);
+
+        // 4. Adding an element at the end using addLast() (same as add())
+        names.addLast("Eve");
+        System.out.println("LinkedList after adding at the end (using addLast): " + names);
+
+        // 5. Adding an element at a specific index using add(index, element)
+        names.add(2, "Frank"); // Inserts "Frank" at index 2
+        System.out.println("LinkedList after adding at index 2: " + names);
+
+        // 6. Getting the first and last elements using getFirst() and getLast()
+        String firstElement = names.getFirst();
+        String lastElement = names.getLast();
+        System.out.println("First element: " + firstElement);
+        System.out.println("Last element: " + lastElement);
+
+        // 7. Removing the first and last elements using removeFirst() and removeLast()
+        names.removeFirst();
+        names.removeLast();
+        System.out.println("LinkedList after removing first and last: " + names);
+
+        // 8. Removing an element at a specific index using remove(index)
+        names.remove(1); // Removes the element at index 1
+        System.out.println("LinkedList after removing element at index 1: " + names);
+
+        // 9. Checking if the LinkedList contains a specific element using contains()
+        boolean containsBob = names.contains("Bob");
+        System.out.println("Does the LinkedList contain 'Bob'? " + containsBob);
+
+        // 10. Getting the size of the LinkedList using size()
+        int size = names.size();
+        System.out.println("Size of the LinkedList: " + size);
+
+        // 11. Iterating through the LinkedList using a for-each loop
+        System.out.println("Elements in the LinkedList:");
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SimpleHashMapExample {
+
+    public static void main(String[] args) {
+        // 1. Creating an empty HashMap where keys are Strings and values are Integers
+        HashMap<String, Integer> studentAges = new HashMap<>();
+        System.out.println("Initial HashMap: " + studentAges);
+
+        // 2. Adding key-value pairs to the HashMap using put()
+        studentAges.put("Alice", 20);
+        studentAges.put("Bob", 22);
+        studentAges.put("Charlie", 21);
+        System.out.println("HashMap after adding elements: " + studentAges);
+
+        // 3. Retrieving a value based on its key using get()
+        Integer aliceAge = studentAges.get("Alice");
+        System.out.println("Age of Alice: " + aliceAge);
+
+        // Trying to get a value for a non-existent key returns null
+        Integer davidAge = studentAges.get("David");
+        System.out.println("Age of David: " + davidAge); // Output: null
+
+        // 4. Checking if a key exists in the HashMap using containsKey()
+        boolean hasBob = studentAges.containsKey("Bob");
+        System.out.println("Does the HashMap contain key 'Bob'? " + hasBob);
+
+        boolean hasDavid = studentAges.containsKey("David");
+        System.out.println("Does the HashMap contain key 'David'? " + hasDavid);
+
+        // 5. Checking if a value exists in the HashMap using containsValue()
+        boolean hasAge21 = studentAges.containsValue(21);
+        System.out.println("Does the HashMap contain value 21? " + hasAge21);
+
+        // 6. Getting the number of key-value pairs in the HashMap using size()
+        int size = studentAges.size();
+        System.out.println("Size of the HashMap: " + size);
+
+        // 7. Removing a key-value pair using remove()
+        Integer removedAge = studentAges.remove("Bob");
+        System.out.println("Removed age for Bob: " + removedAge);
+        System.out.println("HashMap after removing 'Bob': " + studentAges);
+
+        // Trying to remove a non-existent key does nothing and returns null
+        Integer removedDavidAge = studentAges.remove("David");
+        System.out.println("Removed age for David: " + removedDavidAge);
+
+        // 8. Iterating through the HashMap using entrySet() to get key-value pairs
+        System.out.println("Iterating through key-value pairs:");
+        for (Map.Entry<String, Integer> entry : studentAges.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+
+        // 9. Iterating through the keys using keySet()
+        System.out.println("\nIterating through keys:");
+        for (String key : studentAges.keySet()) {
+            System.out.println("Key: " + key);
+        }
+
+        // 10. Iterating through the values using values()
+        System.out.println("\nIterating through values:");
+        for (Integer value : studentAges.values()) {
+            System.out.println("Value: " + value);
+        }
+
+        // 11. Clearing all key-value pairs from the HashMap using clear()
+        studentAges.clear();
+        System.out.println("HashMap after clearing: " + studentAges);
+
+        // Checking if the HashMap is empty using isEmpty()
+        boolean isEmpty = studentAges.isEmpty();
+        System.out.println("Is the HashMap empty? " + isEmpty);
+    }
+}
+

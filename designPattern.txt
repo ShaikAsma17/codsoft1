@@ -1,0 +1,176 @@
+
+public class SimpleSingleton {
+
+    private static SimpleSingleton instance = new SimpleSingleton();
+
+    private SimpleSingleton() {
+    }
+
+    public static SimpleSingleton getInstance() {
+        return instance;
+    }
+
+    public static void main(String[] args) {
+        SimpleSingleton s1 = SimpleSingleton.getInstance();
+        SimpleSingleton s2 = SimpleSingleton.getInstance();
+
+        s1.doSomething();        
+    }
+}
+
+
+Simple Factory design pattern
+
+
+
+// Interface for all animal types
+interface Animal {
+    void makeSound();
+}
+
+// Concrete animal type: Dog
+class Dog implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Woof!");
+    }
+}
+
+// Concrete animal type: Cat
+class Cat implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Meow!");
+    }
+}
+
+// The Simple Factory
+class AnimalFactory {
+    public static Animal createAnimal(String type) {
+        if ("dog".equalsIgnoreCase(type)) {
+            return new Dog();
+        } else if ("cat".equalsIgnoreCase(type)) {
+            return new Cat();
+        } else {
+            System.out.println("Unknown animal type: " + type);
+            return null;
+        }
+    }
+}
+
+
+Solid principles with simple example
+
+ SOLID is an acronym representing five key principles of object-oriented design that aim to make software more understandable, flexible, and maintainable.
+
+
+1. Single Responsibility Principle (SRP):
+
+Simple: One class, one job.
+Analogy: A User Model should have only user related properties and functionality not database logic.
+
+
+// Bad: User handles data and saving
+class User {
+    String name;
+    void save() { /* save to db */ }
+}
+
+// Good: Separate classes for data and saving
+class UserData {
+    String name;
+}
+class UserSaver {
+    void save(UserData user) { /* save to db */ }
+}
+
+
+2. Open/Closed Principle (OCP):
+Simple: Easy to add new stuff, without changing old stuff.
+Analogy: A store that can easily add new products without rearranging the whole layout.
+
+
+
+/ Bad: Need to modify Calculator for new shapes
+class Rectangle { double width, height; }
+class Calculator {
+    double area(Object shape) {
+        if (shape instanceof Rectangle) return ((Rectangle) shape).width * ((Rectangle) shape).height;
+        // ... more if statements for new shapes
+        return 0;
+    }
+}
+
+// Good: Extendable with new shapes
+interface Shape { double area(); }
+class BetterRectangle implements Shape { double width, height; public double area() { return width * height; } }
+class BetterCalculator {
+    double calculateArea(Shape shape) {
+        return shape.area();
+    }
+}
+
+
+3. Liskov Substitution Principle (LSP):
+
+Simple: If it's a "type of," it should work like one.
+Analogy: If a Penguin is a type of bird, you should expect it to be able to fly (even if some ducks don't fly very well).
+
+class Bird {
+    public void fly() {
+        System.out.println("Bird flying.");
+    }
+}
+
+class Penguin extends Bird {
+    @Override
+    public void fly() {
+        System.out.println("Penguin flying.");
+    }
+}
+
+Right approach
+
+class Bird {
+
+}
+
+
+
+
+4. Interface Segregation Principle (ISP):
+
+Simple: Don't make classes do things they don't need.
+Analogy: A worker should only be given the tools they will actually use.
+
+
+// Bad: PrinterClient is forced to implement scan even if it only prints
+interface Machine {
+    void print();
+    void scan();
+}
+class SimplePrinter implements Machine {
+    public void print() {}
+    public void scan() { /* Not needed */ }
+}
+
+// Good: Separate interfaces for different functionalities
+interface Printable { void print(); }
+interface Scannable { void scan(); }
+
+5. Dependency Inversion Principle (DIP):
+
+Simple: Depend on general ideas (interfaces), not specific things (concrete classes).
+Analogy: A lamp that can use any type of light bulb (as long as it fits the socket), not just one specific brand.
+
+
+class CardPaymentService implements PaymentService{
+
+}
+
+@Controller
+class PaymentController{
+
+@Autowired
+private IPaymentService paymentService;
+}
